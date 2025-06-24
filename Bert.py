@@ -52,5 +52,5 @@ history = model.fit(
     callbacks=[early_stopping]
 )
 
-model.save_pretrained("folder Location")
-tokenizer.save_pretrained("folder Location")
+model.save_pretrained("/my_bert_model")
+tokenizer.save_pretrained("/my_bert_model")
