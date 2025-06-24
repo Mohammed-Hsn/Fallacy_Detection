@@ -1,10 +1,11 @@
 # app.py
 import streamlit as st
-from llama import ask_llama
+from Llama import ask_llama
 from transformers import BertTokenizer, TFBertForSequenceClassification
 import tensorflow as tf
 import time
 import pandas as pd
+
 
 bert_model = TFBertForSequenceClassification.from_pretrained("./my_bert_model")
 bert_tokenizer = BertTokenizer.from_pretrained("./my_bert_model")
@@ -22,12 +23,13 @@ def predict_with_bert(text):
     prediction = tf.argmax(logits, axis=1).numpy()[0]
     return "Fallacy" if prediction == 1 else "Not a Fallacy"
 
+
 if "history" not in st.session_state:
     st.session_state.history = []
 
 
-st.set_page_config(page_title="Fallacy Detector", page_icon="🧐", layout="centered")
-st.title("🧐 Fallacy Detector")
+st.set_page_config(page_title="Fallacy Detector", layout="centered")
+st.title("Fallacy Detector")
 st.write("**Enter your argument below. The system will decide whether to use BERT or LLaMA to classify it, and give a concise reason.**")
 
 text = st.text_area("Enter Argument:")
@@ -47,7 +49,7 @@ if st.button("Analyze"):
         progress_bar.progress(40)
         time.sleep(0.1)
 
-       
+
         if "yes" in type_reply:
             predicted_label = predict_with_bert(text)
             progress_bar.progress(70)
@@ -94,12 +96,12 @@ Sentence: {text}
         progress_bar.progress(100)
         time.sleep(0.1)
 
-    
+     
         st.success(f"Predicted: {predicted_label}")
         st.info(f"Reason: {explanation}")
         st.info(f"Highlighted Part: {highlighted_part}")
 
-      
+   
         st.session_state.history.append({
             "Argument": text,
             "Predicted": predicted_label,
@@ -107,12 +109,11 @@ Sentence: {text}
             "Highlight": highlighted_part
         })
 
-     
+      
         st.session_state.history = st.session_state.history[-5:]
 
-   
+     
         progress_bar.empty()
-
 
 st.sidebar.header("📜 History (last 5)")
 for idx, item in enumerate(st.session_state.history[::-1]):
