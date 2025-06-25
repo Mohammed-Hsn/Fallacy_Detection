@@ -32,6 +32,8 @@ st.set_page_config(page_title="Fallacy Detector", layout="centered")
 st.title("Fallacy Detector")
 st.write("**Enter your argument below. The system will decide whether to use BERT or LLaMA to classify it, and give a concise reason.**")
 
+
+
 text = st.text_area("Enter Argument:")
 
 if st.button("Analyze"):
@@ -109,19 +111,17 @@ Sentence: {text}
             "Highlight": highlighted_part
         })
 
-      
-        st.session_state.history = st.session_state.history[-5:]
-
-     
         progress_bar.empty()
 
-st.sidebar.header("📜 History (last 5)")
+# Static sidebar header - moved outside the loop
+st.sidebar.header("📜 History")
+
+# History items loop
 for idx, item in enumerate(st.session_state.history[::-1]):
     st.sidebar.write(f"**Argument:** {item['Argument']}")
     st.sidebar.write(f"**Predicted:** {item['Predicted']}")
     st.sidebar.write(f"**Reason:** {item['Reason']}")
     st.sidebar.write(f"**Highlight:** {item['Highlight']}")
-
 
     if item['Predicted'] == "Fallacy":
         rewrite_button = st.sidebar.button(f"✏️ Rewrite (#{idx + 1})", key=f"rewrite_{idx}")
