@@ -30,7 +30,7 @@ if "history" not in st.session_state:
 
 st.set_page_config(page_title="Fallacy Detector", layout="centered")
 st.title("Fallacy Detector")
-st.write("**Enter your argument below. The system will decide whether to use BERT or LLaMA to classify it, and give a concise reason.**")
+st.write("**Enter your argument below.**")
 
 
 
