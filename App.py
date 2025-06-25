@@ -30,7 +30,6 @@ if "history" not in st.session_state:
 
 st.set_page_config(page_title="Fallacy Detector", layout="centered")
 st.title("Fallacy Detector")
-st.write("**Enter your argument below.**")
 
 
 
